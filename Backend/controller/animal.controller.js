@@ -1,6 +1,6 @@
-/*const userService = require('../services/user.service');
+const AnimalSercice = require('../services/animal.service');
 
-class UserController {
+class AnimalController {
   async getAllAnimals(req, res) {
     try {
       const users = await userService.getAllAnimals();
@@ -84,4 +84,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();*/
+module.exports = new UserController();

@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 const userController = require('../controller/user.controller');
 const router = express.Router();
 const userController= require('../controller/usercontroller');
@@ -7,7 +7,7 @@ const userController= require('../controller/usercontroller');
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
-*/
+
 
 router.get('/', userController.getAllAnimals);
 router.get('/:id', userController.getAnimalById);
@@ -18,4 +18,4 @@ router.put('/:id', userController.updateAnimal);
 router.delete('/:id', userController.deleteAnimal);
 
 
-module.exports = router;
+module.exports = router;*/
