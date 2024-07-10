@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');  // Assurez-vous que ce chemin est correct
 
-const User = sequelize.define('Animals', {
+const Animal = sequelize.define('Animals', {
   name: {
     type: DataTypes.STRING,
     allowNull: false
@@ -26,4 +26,4 @@ const User = sequelize.define('Animals', {
 
 });
 
-module.exports = User;
+module.exports = Animal;
