@@ -1,7 +1,34 @@
-// gonna create the model type user that have a name email password and role with sequilize
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection'); // import the connection to the database
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/connection'); 
 
+const User = sequelize.define('User',{ 
+    name : {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    email : {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique : false
+    },
+    role : {
+        type: DataTypes.STRING,
+        allowNull: false
 
+    },
+    phoneNumber : {
+        type: DataTypes.STRING,
+        allowNull: false
+        },
+    DateDeNaiss : {
+        type: DataTypes.DATE,
+        allowNull: false
+        },
+    departement : {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+});
                                             
                     
+module.exports = User;
