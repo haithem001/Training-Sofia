@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+/*const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');  // Assurez-vous que ce chemin est correct
 
 const User = sequelize.define('Animals', {
@@ -26,4 +26,4 @@ const User = sequelize.define('Animals', {
 
 });
 
-module.exports = User;
+module.exports = User;*/
