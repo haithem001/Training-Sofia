@@ -8,6 +8,9 @@ const fs = require('fs').promises;
 const usersRouter = require('./routes/users.route');
 
 var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var PetsRouter = require('./routes/Pets.Route');
+
 
 var app = express();
 var db = express.Router();
@@ -15,7 +18,6 @@ var db = express.Router();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
