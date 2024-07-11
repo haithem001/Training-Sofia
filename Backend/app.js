@@ -3,6 +3,37 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const { Sequelize } = require('sequelize');
+
+// Database connection details
+const dbName = 'Pets';
+const dbUser = 'user';  // Use the actual username
+const dbPassword = '';  // Leave empty if no password
+const dbHost = 'localhost';
+
+const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
+  host: dbHost,
+  dialect: 'mysql',
+  dialectOptions: {
+    multipleStatements: true
+  },
+  logging: false
+});
+
+// Create the database if it doesn't exist
+sequelize.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\`;`)
+    .then(() => {
+      console.log('Database created or already exists');
+      return sequelize.authenticate(); // Ensure the connection is established
+    })
+    .then(() => {
+      console.log('Database connection established');
+    })
+    .catch(err => {
+      console.error('Error creating database: ', err);
+    });
+
+module.exports = sequelize;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,10 +53,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/Pets', PetsRouter);
+app.use('/', PetsRouter);
 
 
-// catch 404 and forward to error handler
+sequelize.sync()
+    .then(() => {
+      console.log('Database synchronized');
+
+    })
+    .catch(err => {
+      console.error('Error synchronizing the database:', err);
+    });
 app.use(function(req, res, next) {
   next(createError(404));
 });

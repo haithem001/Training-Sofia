@@ -1,6 +1,9 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('Pets', '', '', {
+const dbName = 'Pets';
+
+
+const sequelize = new Sequelize(dbName, '','', {
     host: 'localhost',
     dialect: 'mysql',
     dialectOptions: {
@@ -9,17 +12,28 @@ const sequelize = new Sequelize('Pets', '', '', {
     logging: false
 });
 
-// Create the database if it doesn't exist
-sequelize.query('CREATE DATABASE IF NOT EXISTS Posts')
-    .then(() => {
+async function initializeDatabase() {
+    try {
+        await sequelize.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\`;`);
         console.log('Database created or already exists');
-        return sequelize.sync();
-    })
-    .then(() => {
-        console.log('Database synchronized');
-    })
-    .catch(err => {
-        console.error('Error creating database: ', err);
-    });
 
-module.exports = sequelize;
+        const newSequelize = new Sequelize(dbName,'','', {
+            host: 'localhost',
+            dialect: 'mysql',
+            dialectOptions: {
+                multipleStatements: true
+            },
+            logging: false
+        });
+
+        await newSequelize.authenticate();
+        console.log('Database connection established');
+
+        return newSequelize;
+    } catch (err) {
+        console.error('Error creating database: ', err);
+        throw err;
+    }
+}
+
+module.exports = initializeDatabase;
