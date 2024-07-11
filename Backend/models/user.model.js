@@ -18,13 +18,12 @@ const User = sequelize.define('User',{
     },
     phoneNumber : {
         type: DataTypes.STRING,
-        allowNull: false
         },
-    DateDeNaiss : {
+    dateDeNaiss : {
         type: DataTypes.DATE,
         allowNull: false
         },
-    departement : {
+    department : {
         type: DataTypes.STRING,
         allowNull: false
     }

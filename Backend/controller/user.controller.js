@@ -25,7 +25,7 @@ class UserController{
 
     async createUser(req,res){
         try {
-            const user = await userService.createUser(req.body);
+            const user = await UserService.createUser(req.body);
             res.status(201).json(user);
         } catch (error) {
             res.status(500).json({error: error.message});
@@ -34,7 +34,7 @@ class UserController{
 
     async deleteUser(req,res){
         try {
-            const result = await userService.deleteUser(req.params.id);
+            const result = await UserService.deleteUser(req.params.id);
             if (result) {
                 res.json({message: 'User deleted.'});
             }else{
@@ -49,7 +49,7 @@ class UserController{
     //find by department req qui prend le departement as a parameter
     async findUserByDep(req,res){
         try {
-            const user = await userService.findUserByDep(req.params.dep)
+            const user = await UserService.findUserByDep(req.params.dep)
             if (user) {
                 res.json(user);
             }else{
@@ -64,9 +64,12 @@ class UserController{
 
     async findUserByRole(req,res){
         try {
-            const user = await userService.findUserByRole(req.params.role)
+            const user = await UserService.findUserByRole(req.params.role)
             if (user) {
                 res.json(user);
+                if (user == null) {
+                    res.status(404).json({message: 'no users with this role.'});    
+                }
             }else{
                 res.status(404).json({message: 'no users with this role.'});
             }
@@ -77,7 +80,7 @@ class UserController{
 
     async updateUser(req,res){
         try {
-            const user = await userService.updateUser(req.params.id, req.body);
+            const user = await UserService.updateUser(req.params.id, req.body);
             if (user) {
               res.json(user);
             } else {

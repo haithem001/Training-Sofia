@@ -13,7 +13,7 @@ class UserService{
     async updateUser(id, userData){
         const user = await User.findByPk(id);
         if (user) {
-            return await User.update(userData);    
+            return await User.update(userData,{where: {id}});    
         }
         return null ;
     }
