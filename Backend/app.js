@@ -3,10 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mysql = require('mysql2');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+var moviesRouter = require('./routes/movie_rout');
 var app = express();
 
 // view engine setup
@@ -21,13 +22,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/movies', moviesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler.
+// error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -36,6 +38,26 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+const sourceConnection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'databasetest'
+});
+
+sourceConnection.connect((err) => {
+  if (err) {
+    console.error('Erreur de connexion à la base de données source: ' + err.stack);
+    return;
+  }
+  console.log('Connecté à la base de données source avec l\'id ' + sourceConnection.threadId);
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Serveur démarré sur le port ${PORT}`);
 });
 
 module.exports = app;
