@@ -60,6 +60,27 @@ class MovieController {
       res.status(500).json({ message: 'Error deleting movie' });
     }
   }
+  async headMovie(req, res) {
+    try {
+      const id = req.params.id;
+      const movie = await MovieService.getMovieById(id);
+      if (!movie) {
+        res.status(404).json({ message: 'Movie not found' });
+      } else {
+        res.set('Content-Type', 'application/json');
+        res.set('ETag', movie.etag); // optional
+        res.status(200).end();
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error fetching movie' });
+    }
+    
+  }
+  async optionsMovie(req, res) {
+    res.set('Allow', 'GET, HEAD, POST, PUT, DELETE, OPTIONS');
+    res.status(200).end();
+  }
 }
 
 module.exports = new MovieController();
