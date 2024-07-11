@@ -1,9 +1,9 @@
-/*const userService = require('../services/user.service');
+const AnimalSercice = require('../services/animal.service');
 
-class UserController {
+class AnimalController {
   async getAllAnimals(req, res) {
     try {
-      const users = await userService.getAllAnimals();
+      const users = await AnimalService.getAllAnimals();
       res.json(users);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -12,7 +12,7 @@ class UserController {
 
   async getAnimalById(req, res) {
     try {
-      const user = await userService.getAnimalById(req.params.id);
+      const user = await AnimalService.getAnimalById(req.params.id);
       if (user) {
         res.json(user);
       } else {
@@ -25,7 +25,7 @@ class UserController {
   
   async getAnimalByAge(req, res) {
     try {
-      const user = await userService.getAnimalByAge(req.params.height);
+      const user = await AnimalService.getAnimalByAge(req.params.height);
       if (user) {
         res.json(user);
       } else {
@@ -38,7 +38,7 @@ class UserController {
 
   async getAnimalByHeight(req, res) {
     try {
-      const user = await userService.getAnimalByHeight(req.params.height);
+      const user = await AnimalService.getAnimalByHeight(req.params.height);
       if (user) {
         res.json(user);
       } else {
@@ -51,7 +51,7 @@ class UserController {
 
   async createAnimal(req, res) {
     try {
-      const user = await userService.createAnimal(req.body);
+      const user = await AnimalService.createAnimal(req.body);
       res.status(201).json(user);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -60,7 +60,7 @@ class UserController {
 
   async updateAnimal(req, res) {
     try {
-      const user = await userService.updateAnimal(req.params.id, req.body);
+      const user = await AnimalService.updateAnimal(req.params.id, req.body);
       if (user) {
         res.json(user);
       } else {
@@ -72,7 +72,7 @@ class UserController {
   }
   async deleteAnimal(req, res) {
     try {
-      const result = await userService.deleteAnimal(req.params.id);
+      const result = await AnimalService.deleteAnimal(req.params.id);
       if (result) {
         res.json({ message: 'Animal deleted successfully' });
       } else {
@@ -84,4 +84,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();*/
+module.exports = new AnimalController();
