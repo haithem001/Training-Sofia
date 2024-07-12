@@ -1,4 +1,6 @@
 const initializePetModel = require('../models/Pets.Model');
+const {updatePet} = require("../controller/Pets.controller");
+const {where} = require("sequelize");
 
 exports.getAllPets = async () => {
     try {
@@ -33,3 +35,15 @@ exports.deletePet = async (petData) => {
         throw new Error('Error deleting pet: ' + err.message);
     }
 };
+exports.updatePet = async (id, petData) => {
+    try {
+        const Pet = await initializePetModel();
+        const pet = await Pet.update(petData, {
+            where: { id: id }
+        });
+        return pet;
+    } catch (err) {
+        throw new Error('Error updating pet: ' + err.message);
+    }
+};
+
