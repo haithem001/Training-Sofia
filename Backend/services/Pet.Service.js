@@ -1,5 +1,4 @@
 const initializePetModel = require('../models/Pets.Model');
-const {updatePet} = require("../controller/Pets.controller");
 const {where} = require("sequelize");
 
 exports.getAllPets = async () => {
