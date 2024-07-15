@@ -1,19 +1,15 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const mysql = require('mysql');
-const fs = require('fs').promises;
-const usersRouter = require('./routes/users.route');
-
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/users.route');
 var PetsRouter = require('./routes/Pets.Route');
-
+const sequelize = require('./config/database');
 
 var app = express();
-var db = express.Router();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,9 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-// connect db router to the main app
-app.use('/api', db); // Added this line
+app.use('/pets', PetsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -46,27 +40,19 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
+// Test the database connection
+sequelize.authenticate()
+  .then(() => console.log('Database connected...'))
+  .catch(err => console.log('Error: ' + err));
 
-const sourceConnection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'test'
-});
-
-
-sourceConnection.connect((err) => {
-  if (err) {
-    console.error('Erreur de connexion à la base de données source: ' + err.stack);
-    return;
-  }
-  console.log('Connecté à la base de données source avec l\'id ' + sourceConnection.threadId);
-});
+// Sync all models
+sequelize.sync()
+  .then(() => console.log('Database synchronized'))
+  .catch(err => console.log('Error: ' + err));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Serveur démarré sur le port ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
 
 module.exports = app;
